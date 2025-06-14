@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">MUST-Connect</string>
+    <string name="login">Login</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="change_password">Change Password</string>
+    <string name="current_password">Current Password</string>
+    <string name="new_password">New Password</string>
+    <string name="confirm_password">Confirm New Password</string>
+    <string name="submit">Submit</string>
+    <string name="create_post">Create Post</string>
+    <string name="title_hint">Title</string>
+    <string name="content_hint">Content</string>
+    <string name="attach_media">Attach Media</string>
+    <string name="no_media_selected">No media selected</string>
+    <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="teacher_portal">Teacher Portal</string>
+    <string name="student_portal">Student Portal</string>
+    <string name="logout">Logout</string>
+    <string name="refresh">Refresh</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="comments">Comments</string>
+    <string name="add_comment">Add a comment</string>
+    <string name="total_users">Total Users: %d</string>
+    <string name="total_posts">Total Posts: %d</string>
+    <string name="post_type_notice">Notice</string>
+    <string name="post_type_suggestion">Suggestion</string>
+    <string name="post_type_poll">Poll</string>
+</resources>
