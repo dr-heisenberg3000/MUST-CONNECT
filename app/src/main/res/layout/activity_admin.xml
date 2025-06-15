@@ -4,48 +4,99 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    android:importantForAccessibility="yes">
 
+    <!-- Toolbar -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        app:title="Admin Dashboard"
+        app:titleTextColor="@android:color/white"
+        app:elevation="4dp"
+        android:contentDescription="Admin dashboard toolbar"/>
+
+    <!-- Statistics Card -->
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/colorPrimaryLight"
         app:cardCornerRadius="12dp"
-        android:layout_marginBottom="16dp">
+        android:layout_margin="16dp"
+        app:cardElevation="4dp"
+        android:contentDescription="Statistics card">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="16dp"
+            android:importantForAccessibility="yes">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Admin Dashboard"
-                android:textSize="24sp"
+                android:text="Statistics"
+                android:textSize="20sp"
                 android:textColor="@color/colorPrimaryDark"
                 android:textStyle="bold"
-                android:gravity="center"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Statistics section"/>
 
             <TextView
                 android:id="@+id/tvUserCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
                 android:text="Loading users..."
-                android:textSize="18sp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp"
+                android:contentDescription="Total user count"/>
 
             <TextView
                 android:id="@+id/tvPostCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
                 android:text="Loading posts..."
-                android:textSize="18sp"/>
+                android:layout_marginBottom="8dp"
+                android:contentDescription="Total post count"/>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Add more admin features here -->
+    <!-- Recent Posts Header -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Recent Posts"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:contentDescription="Recent posts section"/>
+
+    <!-- Posts List - Added content description -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPosts"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:contentDescription="List of recent posts"/>
+
+    <!-- Progress Indicator - Added content description -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginVertical="16dp"
+        android:contentDescription="Loading content"/>
 </LinearLayout>

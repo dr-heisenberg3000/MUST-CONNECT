@@ -3,14 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    android:importantForAccessibility="yes">
 
+    <!-- Added contentDescription -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp" />
+        android:padding="8dp"
+        android:contentDescription="@string/posts_list_description"
+        android:importantForAccessibility="yes"/>
 
+    <!-- Added contentDescription and focusable -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabCreatePost"
         android:layout_width="wrap_content"
@@ -18,14 +23,16 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_add"
+        android:contentDescription="@string/create_new_post"
+        android:focusable="true"
         app:backgroundTint="@color/colorPrimary"
-        app:tint="@android:color/white" />
+        app:tint="@android:color/white"/>
 
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone" />
-
+        android:visibility="gone"
+        android:contentDescription="Loading indicator"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

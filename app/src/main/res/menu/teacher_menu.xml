@@ -4,11 +4,19 @@
 
     <item
         android:id="@+id/menu_change_password"
-        android:title="Change Password"
-        app:showAsAction="never" />
+        android:title="@string/change_password"
+        android:icon="@drawable/ic_settings"
+        app:showAsAction="never"/>
 
     <item
         android:id="@+id/menu_admin"
-        android:title="Admin Dashboard"
-        app:showAsAction="never" />
+        android:title="@string/admin_dashboard"
+        android:icon="@drawable/ic_admin"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_logout"
+        android:title="@string/logout"
+        android:icon="@drawable/ic_logout"
+        app:showAsAction="never"/>
 </menu>

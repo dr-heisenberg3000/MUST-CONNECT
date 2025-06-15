@@ -27,4 +27,11 @@
     <string name="post_type_notice">Notice</string>
     <string name="post_type_suggestion">Suggestion</string>
     <string name="post_type_poll">Poll</string>
+    <string name="statistics">Statistics</string>
+    <string name="loading_users">Loading users...</string>
+    <string name="loading_posts">Loading posts...</string>
+    <string name="recent_posts">Recent Posts</string>
+    <string name="comments_list_description">List of comments for this post</string>
+    <string name="posts_list_description">List of posts</string>
+    <string name="create_new_post">Create new post</string>
 </resources>

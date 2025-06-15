@@ -1,17 +1,19 @@
 package com.example.must_connect.posts
 
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.backendless.Backendless
 import com.backendless.async.callback.AsyncCallback
 import com.backendless.exceptions.BackendlessFault
-import com.example.must_connect.R
+import com.backendless.persistence.DataQueryBuilder
 import com.example.must_connect.databinding.ActivityPostDetailBinding
 import com.example.must_connect.models.Comment
 import com.example.must_connect.models.Post
 import com.google.android.material.snackbar.Snackbar
+import com.example.must_connect.App
 
 class PostDetailActivity : AppCompatActivity() {
 
@@ -26,12 +28,13 @@ class PostDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val postId = intent.getStringExtra("post_id") ?: run {
+            Toast.makeText(this, "Post not found", Toast.LENGTH_SHORT).show()
             finish()
             return
         }
 
-        loadPost(postId)
         setupCommentsRecycler()
+        loadPost(postId)
 
         binding.btnSubmitComment.setOnClickListener {
             submitComment()
@@ -39,11 +42,16 @@ class PostDetailActivity : AppCompatActivity() {
     }
 
     private fun loadPost(postId: String) {
-        Backendless.Data.of(Post::class.java).findById(postId, object : AsyncCallback<Post> {
-            override fun handleResponse(foundPost: Post) {
-                post = foundPost
-                displayPost()
-                loadComments()
+        Backendless.Data.of(Post::class.java).findById(postId, object : AsyncCallback<Post?> {
+            override fun handleResponse(foundPost: Post?) {
+                foundPost?.let {
+                    post = it
+                    displayPost()
+                    loadComments()
+                } ?: run {
+                    Toast.makeText(this@PostDetailActivity, "Post not found", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
             }
 
             override fun handleFault(fault: BackendlessFault) {
@@ -56,13 +64,7 @@ class PostDetailActivity : AppCompatActivity() {
     private fun displayPost() {
         binding.tvTitle.text = post.title
         binding.tvContent.text = post.content
-
-        if (!post.mediaUrl.isNullOrEmpty()) {
-            // Load media using Glide or similar
-        }
-
-        // Show/hide comment section based on post type
-        binding.layoutComments.visibility = if (post.type == "suggestion") View.VISIBLE else View.GONE
+        binding.layoutComments.visibility = if (post.allowComments) View.VISIBLE else View.GONE
     }
 
     private fun setupCommentsRecycler() {
@@ -72,12 +74,15 @@ class PostDetailActivity : AppCompatActivity() {
     }
 
     private fun loadComments() {
-        val whereClause = "postId = '$post.objectId'"
-        val query = DataQueryBuilder.create()
-        query.whereClause = whereClause
-        query.sortBy = "created ASC"
+        val postId = post.objectId ?: return
 
-        Backendless.Data.of(Comment::class.java).find(query, object : AsyncCallback<List<Comment>> {
+        val whereClause = "postId = '$postId'"
+        val query = DataQueryBuilder.create().apply {
+            this.whereClause = whereClause
+            this.sortBy = listOf("created ASC")
+        }
+
+        Backendless.Data.of(Comment::class.java).find(query, object : AsyncCallback<List<Comment>?> {
             override fun handleResponse(foundComments: List<Comment>?) {
                 comments.clear()
                 foundComments?.let { comments.addAll(it) }
@@ -85,7 +90,7 @@ class PostDetailActivity : AppCompatActivity() {
             }
 
             override fun handleFault(fault: BackendlessFault) {
-                Snackbar.make(binding.root, "Failed to load comments", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Failed to load comments: ${fault.message}", Snackbar.LENGTH_SHORT).show()
             }
         })
     }
@@ -94,22 +99,30 @@ class PostDetailActivity : AppCompatActivity() {
         val commentText = binding.etComment.text.toString().trim()
         if (commentText.isEmpty()) return
 
+        val currentUser = App.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "User not found, please login again", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val comment = Comment().apply {
             this.text = commentText
             this.postId = post.objectId
-            this.authorId = Backendless.UserService.CurrentUser().objectId
-            this.authorName = Backendless.UserService.CurrentUser().getProperty("name") as? String ?: "Anonymous"
+            this.authorId = currentUser.objectId
+            this.authorName = currentUser.fullName ?: "Anonymous"
         }
 
-        Backendless.Data.of(Comment::class.java).save(comment, object : AsyncCallback<Comment> {
-            override fun handleResponse(response: Comment) {
-                binding.etComment.text.clear()
-                comments.add(response)
-                commentAdapter.notifyItemInserted(comments.size - 1)
+        Backendless.Data.of(Comment::class.java).save(comment, object : AsyncCallback<Comment?> {
+            override fun handleResponse(response: Comment?) {
+                response?.let {
+                    binding.etComment.text?.clear()
+                    comments.add(it)
+                    commentAdapter.notifyItemInserted(comments.size - 1)
+                }
             }
 
             override fun handleFault(fault: BackendlessFault) {
-                Snackbar.make(binding.root, "Failed to post comment", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(binding.root, "Failed to post comment: ${fault.message}", Snackbar.LENGTH_SHORT).show()
             }
         })
     }

@@ -11,7 +11,7 @@ class Post {
     var title: String = ""
     var content: String = ""
     var type: String = POST_NOTICE
-    var createdBy: String? = null // User ID
+    var authorId: String? = null
     var createdAt: Date? = null
     var mediaUrl: String? = null
     var allowComments: Boolean = false

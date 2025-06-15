@@ -32,7 +32,44 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
+            android:contentDescription="@string/app_name"
+            android:background="@drawable/placeholder"
             android:layout_marginBottom="16dp"/>
+
+        <!-- Poll Section -->
+        <LinearLayout
+            android:id="@+id/layout_poll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@drawable/bg_rounded_corner"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Poll"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/poll_options_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="16dp"/>
+
+            <Button
+                android:id="@+id/btnVote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Vote"
+                android:background="@drawable/selector_button_primary"
+                android:textColor="@android:color/white"/>
+        </LinearLayout>
 
         <!-- Comment Section -->
         <LinearLayout
@@ -40,14 +77,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp"
-            android:background="@color/colorPrimaryLight"
-            android:layout_marginTop="16dp">
+            android:padding="16dp"
+            android:background="@drawable/bg_rounded_corner"
+            android:layout_marginTop="16dp"
+            android:importantForAccessibility="yes">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Comments"
+                android:text="@string/comments"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -56,14 +94,16 @@
                 android:id="@+id/rvComments"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_marginBottom="8dp"/>
+                android:layout_marginBottom="8dp"
+                android:contentDescription="@string/comments_list_description"
+                android:importantForAccessibility="yes"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:hint="Add a comment">
+                android:hint="@string/add_comment">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etComment"
@@ -75,8 +115,9 @@
                 android:id="@+id/btnSubmitComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Submit"
-                app:backgroundTint="@color/colorPrimary"
+                android:text="@string/submit"
+                android:background="@drawable/selector_button_primary"
+                android:foreground="@drawable/ripple_effect"
                 android:textColor="@android:color/white"/>
         </LinearLayout>
     </LinearLayout>

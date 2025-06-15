@@ -4,18 +4,23 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.backendless.Backendless
+import com.backendless.async.callback.AsyncCallback
+import com.backendless.exceptions.BackendlessFault
 import com.backendless.persistence.DataQueryBuilder
 import com.example.must_connect.R
+import com.example.must_connect.auth.LoginActivity
 import com.example.must_connect.auth.PasswordChangeActivity
 import com.example.must_connect.databinding.ActivityStudentBinding
 import com.example.must_connect.models.Post
 import com.example.must_connect.posts.PostAdapter
 import com.example.must_connect.posts.PostDetailActivity
+import com.example.must_connect.utils.hide
+import com.example.must_connect.utils.show
+import com.example.must_connect.App
 
 class StudentDashboardActivity : AppCompatActivity() {
 
@@ -27,6 +32,7 @@ class StudentDashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityStudentBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
 
         setupRecyclerView()
         loadPosts()
@@ -37,25 +43,31 @@ class StudentDashboardActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = PostAdapter(posts, false) { post ->
-            // Open post detail when clicked
-            val intent = Intent(this, PostDetailActivity::class.java)
-            intent.putExtra("post_id", post.objectId)
-            startActivity(intent)
-        }
+        adapter = PostAdapter(posts, false, object : PostAdapter.OnItemClickListener {
+            override fun onItemClick(post: Post) {
+                val intent = Intent(this@StudentDashboardActivity, PostDetailActivity::class.java)
+                intent.putExtra("post_id", post.objectId)
+                startActivity(intent)
+            }
+
+            override fun onEditClick(post: Post) {}
+            override fun onDeleteClick(post: Post) {}
+        })
+
         binding.rvPosts.layoutManager = LinearLayoutManager(this)
         binding.rvPosts.adapter = adapter
     }
 
     private fun loadPosts() {
-        binding.progressBar.visibility = View.VISIBLE
+        binding.progressBar.show()
 
-        val query = DataQueryBuilder.create()
-        query.sortBy = "created DESC"
+        val queryBuilder = DataQueryBuilder.create().apply {
+            sortBy = listOf("created DESC")
+        }
 
-        Backendless.Data.of(Post::class.java).find(query, object : AsyncCallback<List<Post>> {
+        Backendless.Data.of(Post::class.java).find(queryBuilder, object : AsyncCallback<List<Post>> {
             override fun handleResponse(foundPosts: List<Post>?) {
-                binding.progressBar.visibility = View.GONE
+                binding.progressBar.hide()
                 binding.swipeRefresh.isRefreshing = false
                 posts.clear()
                 foundPosts?.let { posts.addAll(it) }
@@ -63,9 +75,13 @@ class StudentDashboardActivity : AppCompatActivity() {
             }
 
             override fun handleFault(fault: BackendlessFault) {
-                binding.progressBar.visibility = View.GONE
+                binding.progressBar.hide()
                 binding.swipeRefresh.isRefreshing = false
-                Toast.makeText(this@StudentDashboardActivity, "Failed to load posts: ${fault.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@StudentDashboardActivity,
+                    "Failed to load posts: ${fault.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -81,7 +97,17 @@ class StudentDashboardActivity : AppCompatActivity() {
                 startActivity(Intent(this, PasswordChangeActivity::class.java))
                 true
             }
+            R.id.menu_logout -> {
+                logout()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun logout() {
+        App.currentUser = null
+        startActivity(Intent(this@StudentDashboardActivity, LoginActivity::class.java))
+        finish()
     }
 }

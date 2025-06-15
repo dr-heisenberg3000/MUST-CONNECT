@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="Title">
+            android:hint="@string/title_hint">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etTitle"
@@ -29,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:hint="Content">
+            android:hint="@string/content_hint">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etContent"
@@ -39,26 +39,95 @@
                 android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Spinner
-            android:id="@+id/spinnerPostType"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:minHeight="48dp"
+            android:background="?attr/selectableItemBackground"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_vertical">
+
+            <Spinner
+                android:id="@+id/spinnerPostType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:paddingVertical="12dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutPollOptions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Poll Options"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Option 1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOption1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:hint="Option 2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOption2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnAddOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Option"
+                android:background="@drawable/bg_button_secondary"
+                android:textColor="@color/colorPrimary"/>
+        </LinearLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switchAllowComments"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Allow Comments"
+            android:layout_marginBottom="16dp"
+            android:checked="true"/>
 
         <Button
             android:id="@+id/btnAttachMedia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Attach Media"
+            android:text="@string/attach_media"
+            android:background="@drawable/bg_button_secondary"
+            android:foreground="@drawable/ripple_effect"
             android:textColor="@color/colorPrimary"
-            app:backgroundTint="@android:color/transparent"
             android:layout_marginBottom="8dp"/>
 
         <TextView
             android:id="@+id/tvMediaStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="No media selected"
+            android:text="@string/no_media_selected"
             android:textColor="@color/colorTextSecondary"
             android:layout_marginBottom="16dp"/>
 
@@ -66,8 +135,9 @@
             android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create Post"
-            app:backgroundTint="@color/colorPrimary"
+            android:text="@string/create_post"
+            android:background="@drawable/selector_button_primary"
+            android:foreground="@drawable/ripple_effect"
             android:textColor="@android:color/white"/>
     </LinearLayout>
 </ScrollView>

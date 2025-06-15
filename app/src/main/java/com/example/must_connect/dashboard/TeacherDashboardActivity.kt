@@ -4,19 +4,24 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.backendless.Backendless
+import com.backendless.async.callback.AsyncCallback
+import com.backendless.exceptions.BackendlessFault
 import com.backendless.persistence.DataQueryBuilder
 import com.example.must_connect.R
+import com.example.must_connect.auth.LoginActivity
 import com.example.must_connect.auth.PasswordChangeActivity
 import com.example.must_connect.databinding.ActivityTeacherBinding
 import com.example.must_connect.models.Post
 import com.example.must_connect.posts.CreatePostActivity
 import com.example.must_connect.posts.PostAdapter
-import android.widget.Toast
+import com.example.must_connect.posts.PostDetailActivity
+import com.example.must_connect.utils.hide
+import com.example.must_connect.utils.show
+import com.example.must_connect.App
 
 class TeacherDashboardActivity : AppCompatActivity() {
 
@@ -29,6 +34,9 @@ class TeacherDashboardActivity : AppCompatActivity() {
         binding = ActivityTeacherBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.title = "Teacher Portal"
+        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
         setupRecyclerView()
         loadPosts()
 
@@ -38,41 +46,81 @@ class TeacherDashboardActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        adapter = PostAdapter(posts, true) // true for teacher
+        adapter = PostAdapter(posts, true, object : PostAdapter.OnItemClickListener {
+            override fun onItemClick(post: Post) {
+                val intent = Intent(this@TeacherDashboardActivity, PostDetailActivity::class.java)
+                intent.putExtra("post_id", post.objectId)
+                startActivity(intent)
+            }
+
+            override fun onEditClick(post: Post) {
+                val intent = Intent(this@TeacherDashboardActivity, CreatePostActivity::class.java)
+                intent.putExtra("post_id", post.objectId)
+                startActivity(intent)
+            }
+
+            override fun onDeleteClick(post: Post) {
+                Backendless.Data.of(Post::class.java).remove(post, object : AsyncCallback<Long> {
+                    override fun handleResponse(response: Long?) {
+                        loadPosts()
+                        Toast.makeText(
+                            this@TeacherDashboardActivity,
+                            "Post deleted",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+
+                    override fun handleFault(fault: BackendlessFault) {
+                        Toast.makeText(
+                            this@TeacherDashboardActivity,
+                            "Delete failed: ${fault.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                })
+            }
+        })
+
         binding.rvPosts.layoutManager = LinearLayoutManager(this)
         binding.rvPosts.adapter = adapter
     }
 
     private fun loadPosts() {
-        binding.progressBar.visibility = View.VISIBLE
+        val currentUser = App.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "User not found, please login again", Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
-        val currentUserId = Backendless.UserService.CurrentUser().objectId
-        val query = DataQueryBuilder.create()
-        query.whereClause = "createdBy = '$currentUserId'"
-        query.sortBy = "created DESC"
+        binding.progressBar.show()
 
-        Backendless.Data.of(Post::class.java).find(query, object : AsyncCallback<List<Post>> {
+        val queryBuilder = DataQueryBuilder.create().apply {
+            whereClause = "authorId = '${currentUser.objectId}'"
+            sortBy = listOf("created DESC")
+        }
+
+        Backendless.Data.of(Post::class.java).find(queryBuilder, object : AsyncCallback<List<Post>> {
             override fun handleResponse(foundPosts: List<Post>?) {
-                binding.progressBar.visibility = View.GONE
+                binding.progressBar.hide()
                 posts.clear()
                 foundPosts?.let { posts.addAll(it) }
                 adapter.notifyDataSetChanged()
             }
 
             override fun handleFault(fault: BackendlessFault) {
-                binding.progressBar.visibility = View.GONE
-                showToast("Failed to load posts: ${fault.message}")
+                binding.progressBar.hide()
+                Toast.makeText(
+                    this@TeacherDashboardActivity,
+                    "Failed to load posts: ${fault.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.teacher_menu, menu)
-
-        // Show admin menu only for admin users
-        val isAdmin = Backendless.UserService.CurrentUser().getProperty("role") == "admin"
-        menu?.findItem(R.id.menu_admin)?.isVisible = isAdmin
-
         return true
     }
 
@@ -82,15 +130,17 @@ class TeacherDashboardActivity : AppCompatActivity() {
                 startActivity(Intent(this, PasswordChangeActivity::class.java))
                 true
             }
-            R.id.menu_admin -> {
-                startActivity(Intent(this, AdminDashboardActivity::class.java))
+            R.id.menu_logout -> {
+                logout()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    private fun showToast(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    private fun logout() {
+        App.currentUser = null
+        startActivity(Intent(this@TeacherDashboardActivity, LoginActivity::class.java))
+        finish()
     }
 }

@@ -6,8 +6,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.backendless.Backendless
 import com.backendless.async.callback.AsyncCallback
 import com.backendless.exceptions.BackendlessFault
-import com.example.must_connect.R
 import com.example.must_connect.databinding.ActivityPasswordChangeBinding
+import com.example.must_connect.App
+import com.example.must_connect.models.AppUser
 
 class PasswordChangeActivity : AppCompatActivity() {
 
@@ -33,14 +34,38 @@ class PasswordChangeActivity : AppCompatActivity() {
             return
         }
 
-        Backendless.UserService.updatePassword(oldPassword, newPassword, object : AsyncCallback<Void> {
-            override fun handleResponse(response: Void?) {
-                Toast.makeText(this@PasswordChangeActivity, "Password updated", Toast.LENGTH_SHORT).show()
+        val currentUser = App.currentUser
+        if (currentUser == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Verify old password matches
+        if (currentUser.password != oldPassword) {
+            Toast.makeText(this, "Old password is incorrect", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Update password locally
+        currentUser.password = newPassword
+
+        // Save to backend
+        Backendless.Data.of(AppUser::class.java).save(currentUser, object : AsyncCallback<AppUser> {
+            override fun handleResponse(response: AppUser?) {
+                Toast.makeText(
+                    this@PasswordChangeActivity,
+                    "Password updated successfully",
+                    Toast.LENGTH_SHORT
+                ).show()
                 finish()
             }
 
             override fun handleFault(fault: BackendlessFault) {
-                Toast.makeText(this@PasswordChangeActivity, "Error: ${fault.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@PasswordChangeActivity,
+                    "Error: ${fault.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }

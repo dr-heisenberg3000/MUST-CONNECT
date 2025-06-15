@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.must_connect.R
 import com.example.must_connect.models.Comment
+import com.example.must_connect.utils.DateUtils
 
 class CommentAdapter(private val comments: List<Comment>) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
@@ -25,7 +26,7 @@ class CommentAdapter(private val comments: List<Comment>) : RecyclerView.Adapter
         val comment = comments[position]
         holder.tvAuthor.text = comment.authorName
         holder.tvText.text = comment.text
-        holder.tvTime.text = comment.createdAt?.toString()?.substring(0, 16) // Show date and time
+        holder.tvTime.text = comment.createdAt?.let { DateUtils.formatDateTime(it) } ?: ""
     }
 
     override fun getItemCount() = comments.size

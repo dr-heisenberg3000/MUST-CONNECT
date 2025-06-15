@@ -12,6 +12,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:src="@drawable/ic_university"
+        android:contentDescription="@string/app_name"
         android:layout_marginBottom="24dp"/>
 
     <TextView
@@ -28,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Username">
+        android:hint="@string/username_hint">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etUsername"
@@ -42,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:hint="Password">
+        android:hint="@string/password_hint">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPassword"
@@ -55,8 +56,9 @@
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:backgroundTint="@color/colorPrimary"
+        android:text="@string/login"
+        android:background="@drawable/selector_button_primary"
+        android:foreground="@drawable/ripple_effect"
         android:textColor="@android:color/white"
         android:textSize="18sp"
         android:paddingVertical="12dp"/>
