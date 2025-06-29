@@ -72,6 +72,8 @@ dependencies {
     implementation ("com.github.bumptech.glide:glide:4.16.0")
     implementation ("com.backendless:backendless:6.3.2")
     implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation("com.google.code.gson:gson:2.8.9")
+
 
 
 

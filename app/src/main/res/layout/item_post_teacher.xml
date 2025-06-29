@@ -4,106 +4,143 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@android:color/white"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/cardBackground"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/cardBorder">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <!-- Post Title -->
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Post Content -->
-        <TextView
-            android:id="@+id/tvContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Media Image -->
-        <ImageView
-            android:id="@+id/ivMedia"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:background="@drawable/placeholder"
-            android:layout_marginBottom="8dp"
-            android:visibility="gone"/>
-
-        <!-- Post Type Badge -->
-        <TextView
-            android:id="@+id/tvPostType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="4dp"
-            android:background="@drawable/bg_rounded_corner"
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp"
-            android:layout_marginBottom="8dp"/>
-
-        <!-- Author and Time (Fixed Layout) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvAuthor"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="14sp"
-                android:textColor="@color/colorTextSecondary"/>
-
-            <TextView
-                android:id="@+id/tvTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/colorTextSecondary"/>
-        </LinearLayout>
-
-        <!-- Teacher-only buttons (Preserved exactly as in original) -->
+        <!-- Post Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:padding="16dp"
+            android:gravity="center_vertical">
 
-            <Button
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvAuthor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.MUSTConnect.BodyLarge"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="2dp"/>
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.MUSTConnect.BodySmall"
+                    android:textColor="@color/colorTextTertiary"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvPostType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="6dp"
+                android:background="@drawable/bg_post_type_badge"
+                android:textColor="@color/colorOnPrimary"
+                android:textAppearance="@style/TextAppearance.MUSTConnect.BodySmall"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <!-- Post Content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MUSTConnect.HeadlineSmall"
+                android:textColor="@color/colorTextPrimary"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MUSTConnect.BodyLarge"
+                android:textColor="@color/colorTextSecondary"
+                android:layout_marginBottom="12dp"
+                android:lineSpacingExtra="2dp"/>
+
+            <!-- Media Content -->
+            <ImageView
+                android:id="@+id/ivMedia"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="12dp"
+                android:visibility="gone"
+                android:background="@drawable/bg_media_placeholder"
+                android:contentDescription="Post media"/>
+
+        </LinearLayout>
+
+        <!-- Teacher-only buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingBottom="16dp">
+
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEdit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/edit"
-                android:background="@drawable/bg_button_secondary"
-                android:foreground="@drawable/ripple_effect"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginEnd="4dp"/>
+                android:textSize="14sp"
+                android:textColor="@android:color/white"
+                android:layout_marginEnd="8dp"
+                app:cornerRadius="12dp"
+                app:backgroundTint="@color/colorSecondary"
+                app:rippleColor="@color/colorSecondaryLight"
+                app:elevation="2dp"
+                style="@style/Widget.Material3.Button.OutlinedButton"/>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDelete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/delete"
-                android:background="@drawable/selector_button_primary"
-                android:foreground="@drawable/ripple_effect"
-                android:textColor="@android:color/white"
-                android:layout_marginStart="4dp"/>
+                android:textSize="14sp"
+                android:layout_marginStart="8dp"
+                app:cornerRadius="12dp"
+                app:backgroundTint="@color/colorError"
+                app:rippleColor="@color/colorError"
+                app:elevation="2dp"/>
+
         </LinearLayout>
+
     </LinearLayout>
+
 </com.google.android.material.card.MaterialCardView>

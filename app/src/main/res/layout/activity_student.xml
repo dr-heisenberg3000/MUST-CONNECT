@@ -1,43 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorBackground"
     android:importantForAccessibility="yes">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
+    <!-- App Bar with Modern Design -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:title="@string/student_portal"
-        app:titleTextColor="@android:color/white"
-        android:contentDescription="Student portal toolbar"/>
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/bg_gradient_toolbar"
+            app:title="@string/student_portal"
+            app:titleTextColor="@color/colorOnPrimary"
+            app:titleTextAppearance="@style/TextAppearance.MUSTConnect.HeadlineSmall"
+            app:contentInsetStartWithNavigation="0dp"
+            app:contentInsetEndWithActions="0dp"
+            android:contentDescription="Student portal toolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_home"
+                    android:contentDescription="Home icon"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/student_portal"
+                    android:textAppearance="@style/TextAppearance.MUSTConnect.HeadlineSmall"
+                    android:textColor="@color/colorOnPrimary"
+                    android:fontFamily="sans-serif-medium"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:importantForAccessibility="yes">
+        android:importantForAccessibility="yes"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Added contentDescription -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvPosts"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="8dp"
+            android:padding="12dp"
+            android:clipToPadding="false"
             android:contentDescription="@string/posts_list_description"
             android:importantForAccessibility="yes"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <ProgressBar
+    <!-- Progress Bar with Modern Styling -->
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
-        android:contentDescription="Loading indicator"/>
-</LinearLayout>
+        android:contentDescription="Loading indicator"
+        app:indicatorColor="@color/colorPrimary"
+        app:trackColor="@color/colorPrimaryLight"
+        app:indicatorSize="48dp"
+        app:trackThickness="4dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

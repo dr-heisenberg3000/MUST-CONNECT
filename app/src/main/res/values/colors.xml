@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Material Design 3 Color System -->
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
@@ -7,12 +8,58 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="colorPrimary">#1E88E5</color>
-    <color name="colorPrimaryDark">#0D47A1</color>
-    <color name="colorPrimaryLight">#BBDEFB</color>
-    <color name="colorBackground">#F5F9FF</color>
-    <color name="colorTextPrimary">#212121</color>
-    <color name="colorTextSecondary">#757575</color>
-    <color name="colorAccent">#FF4081</color>
-
+    
+    <!-- Modern Blue & White Primary Colors -->
+    <color name="colorPrimary">#2563EB</color>
+    <color name="colorPrimaryDark">#1D4ED8</color>
+    <color name="colorPrimaryLight">#DBEAFE</color>
+    <color name="colorPrimaryVariant">#1E40AF</color>
+    
+    <!-- Modern Secondary Colors -->
+    <color name="colorSecondary">#3B82F6</color>
+    <color name="colorSecondaryDark">#2563EB</color>
+    <color name="colorSecondaryLight">#BFDBFE</color>
+    
+    <!-- Background Colors -->
+    <color name="colorBackground">#F8FAFC</color>
+    <color name="colorSurface">#FFFFFF</color>
+    <color name="colorSurfaceVariant">#F1F5F9</color>
+    
+    <!-- Text Colors -->
+    <color name="colorTextPrimary">#1E293B</color>
+    <color name="colorTextSecondary">#64748B</color>
+    <color name="colorTextTertiary">#94A3B8</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorOnSurface">#1E293B</color>
+    
+    <!-- Accent Colors -->
+    <color name="colorAccent">#0EA5E9</color>
+    <color name="colorAccentDark">#0284C7</color>
+    <color name="colorAccentLight">#BAE6FD</color>
+    
+    <!-- Status Colors -->
+    <color name="colorSuccess">#10B981</color>
+    <color name="colorWarning">#F59E0B</color>
+    <color name="colorError">#EF4444</color>
+    <color name="colorInfo">#3B82F6</color>
+    
+    <!-- Gradient Colors - Blue & White Theme -->
+    <color name="gradientStart">#2563EB</color>
+    <color name="gradientEnd">#1E40AF</color>
+    <color name="gradientSecondaryStart">#3B82F6</color>
+    <color name="gradientSecondaryEnd">#1D4ED8</color>
+    <color name="gradientLightStart">#DBEAFE</color>
+    <color name="gradientLightEnd">#BFDBFE</color>
+    <color name="gradientWhiteStart">#FFFFFF</color>
+    <color name="gradientWhiteEnd">#F8FAFC</color>
+    
+    <!-- Card Colors -->
+    <color name="cardBackground">#FFFFFF</color>
+    <color name="cardBackgroundVariant">#F8FAFC</color>
+    <color name="cardBorder">#E2E8F0</color>
+    
+    <!-- Shadow Colors -->
+    <color name="shadowColor">#000000</color>
+    <color name="shadowColorLight">#000000</color>
 </resources>

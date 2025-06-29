@@ -1,7 +1,6 @@
 package com.example.must_connect.utils
 
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 fun View.show() {
@@ -13,5 +12,5 @@ fun View.hide() {
 }
 
 fun Fragment.showToast(message: String) {
-    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    ToastUtils.showInfoToast(requireContext(), message)
 }

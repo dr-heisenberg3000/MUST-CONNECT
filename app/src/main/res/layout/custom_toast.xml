@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toastCard"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="8dp"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:minWidth="200dp">
+
+        <ImageView
+            android:id="@+id/toastIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginEnd="12dp"
+            android:src="@drawable/ic_check"
+            android:contentDescription="Toast icon"
+            android:tint="@color/colorOnPrimary"/>
+
+        <TextView
+            android:id="@+id/toastText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Toast message"
+            android:textColor="@color/colorOnPrimary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:maxLines="3"
+            android:ellipsize="end"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView> 

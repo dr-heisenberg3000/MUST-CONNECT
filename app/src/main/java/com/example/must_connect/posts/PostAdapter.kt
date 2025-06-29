@@ -11,11 +11,15 @@ import com.bumptech.glide.Glide
 import com.example.must_connect.R
 import com.example.must_connect.models.Post
 import com.example.must_connect.utils.DateUtils
+import com.example.must_connect.App
 
 class PostAdapter(
     private val posts: List<Post>,
     private val isTeacher: Boolean,
-    private val listener: OnItemClickListener? = null  // Made listener nullable
+    private val listener: OnItemClickListener? = null,
+    private val authorMap: Map<String, String> = emptyMap(),
+    private val showEditButton: Boolean = true,
+    private val isAdmin: Boolean = false  // Added isAdmin flag
 ) : RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
 
     interface OnItemClickListener {
@@ -43,13 +47,14 @@ class PostAdapter(
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val post = posts[position]
+        val currentUserId = App.currentUser?.objectId ?: ""
+        val isOwnPost = post.authorId == currentUserId
 
         holder.tvTitle.text = post.title
         holder.tvContent.text = post.content
-        holder.tvAuthor.text = "Posted by Teacher" // In real app, fetch author name
+        holder.tvAuthor.text = "Posted by ${authorMap[post.authorId] ?: "Unknown"}"
         holder.tvTime.text = DateUtils.formatDateTime(post.createdAt)
 
-        // Set post type badge
         holder.tvPostType.text = when (post.type) {
             "notice" -> "Notice"
             "suggestion" -> "Suggestion"
@@ -57,7 +62,6 @@ class PostAdapter(
             else -> "Post"
         }
 
-        // Load media if available
         if (!post.mediaUrl.isNullOrEmpty()) {
             holder.ivMedia.visibility = View.VISIBLE
             Glide.with(holder.itemView.context)
@@ -68,19 +72,26 @@ class PostAdapter(
             holder.ivMedia.visibility = View.GONE
         }
 
-        // Set click listener for the entire item (null-safe)
-        holder.itemView.setOnClickListener {
-            listener?.onItemClick(post)
-        }
+        holder.itemView.setOnClickListener { listener?.onItemClick(post) }
 
-        // Setup teacher-specific buttons (null-safe)
         if (isTeacher) {
+            // ADMIN: Always show delete button, never show edit button
+            if (isAdmin) {
+                holder.btnEdit?.visibility = View.GONE
+                holder.btnDelete?.visibility = View.VISIBLE
+            }
+            // TEACHER: Show buttons only for own posts
+            else {
+                holder.btnEdit?.visibility = if (isOwnPost && showEditButton) View.VISIBLE else View.GONE
+                holder.btnDelete?.visibility = if (isOwnPost) View.VISIBLE else View.GONE
+            }
+
             holder.btnEdit?.setOnClickListener {
-                listener?.onEditClick(post)
+                if (isOwnPost) listener?.onEditClick(post)
             }
 
             holder.btnDelete?.setOnClickListener {
-                listener?.onDeleteClick(post)
+                if (isOwnPost || isAdmin) listener?.onDeleteClick(post)
             }
         }
     }

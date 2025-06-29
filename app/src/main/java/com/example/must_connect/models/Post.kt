@@ -15,6 +15,9 @@ class Post {
     var createdAt: Date? = null
     var mediaUrl: String? = null
     var allowComments: Boolean = false
-    var pollOptions: List<String> = listOf()
-    var pollVotes: Map<String, Int> = mapOf()
+    var pollOptions: String? = null  // JSON string of options
+
+    // Fixed fields with proper initialization
+    var pollVotes: String = "{}" // JSON string of {option: count}
+    var votedUserIds: String = "[]" // JSON string of [userId]
 }

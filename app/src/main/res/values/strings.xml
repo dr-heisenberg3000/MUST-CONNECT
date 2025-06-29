@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MUST-Connect</string>
+    <string name="app_name">MUST CONNECT</string>
     <string name="login">Login</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
@@ -34,4 +34,6 @@
     <string name="comments_list_description">List of comments for this post</string>
     <string name="posts_list_description">List of posts</string>
     <string name="create_new_post">Create new post</string>
+    <string name="already_voted">You\'ve already voted</string>
+    <string name="vote_submitted">Vote submitted!</string>
 </resources>

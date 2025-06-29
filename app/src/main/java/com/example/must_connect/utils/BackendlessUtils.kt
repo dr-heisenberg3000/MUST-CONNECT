@@ -6,15 +6,21 @@ import com.backendless.Backendless
 import com.backendless.async.callback.AsyncCallback
 import com.backendless.exceptions.BackendlessFault
 import com.backendless.files.BackendlessFile
-import com.example.must_connect.models.Post
 import java.io.File
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import com.example.must_connect.models.Post
 
 object BackendlessUtils {
 
     fun uploadMedia(context: Context, uri: Uri, callback: (String?) -> Unit) {
         val inputStream = context.contentResolver.openInputStream(uri)
-        val file = File(context.cacheDir, "temp_upload")
+        // Generate unique filename with timestamp
+        val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val fileName = "media_$timestamp"
+        val file = File(context.cacheDir, fileName)
         inputStream?.use { input ->
             FileOutputStream(file).use { output ->
                 input.copyTo(output)

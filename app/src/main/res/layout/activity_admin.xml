@@ -1,102 +1,261 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colorBackground"
     android:importantForAccessibility="yes">
 
-    <!-- Toolbar -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colorPrimary"
-        app:title="Admin Dashboard"
-        app:titleTextColor="@android:color/white"
-        app:elevation="4dp"
-        android:contentDescription="Admin dashboard toolbar"/>
-
-    <!-- Statistics Card -->
-    <com.google.android.material.card.MaterialCardView
+    <!-- App Bar with Modern Design -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorPrimaryLight"
-        app:cardCornerRadius="12dp"
-        android:layout_margin="16dp"
-        app:cardElevation="4dp"
-        android:contentDescription="Statistics card">
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/bg_gradient_toolbar"
+            app:title="Admin Dashboard"
+            app:titleTextColor="@color/colorOnPrimary"
+            app:titleTextAppearance="@style/TextAppearance.MUSTConnect.HeadlineSmall"
+            app:elevation="8dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:contentInsetEndWithActions="0dp"
+            android:contentDescription="Admin dashboard toolbar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_admin"
+                    android:contentDescription="Admin icon"
+                    android:layout_marginEnd="12dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Admin Dashboard"
+                    android:textAppearance="@style/TextAppearance.MUSTConnect.HeadlineSmall"
+                    android:textColor="@color/colorOnPrimary"
+                    android:fontFamily="sans-serif-medium"/>
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:importantForAccessibility="yes">
+            android:padding="16dp">
 
-            <TextView
+            <!-- Statistics Cards -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Statistics"
-                android:textSize="20sp"
-                android:textColor="@color/colorPrimaryDark"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp"
-                android:contentDescription="Statistics section"/>
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
 
-            <TextView
-                android:id="@+id/tvUserCount"
+                <!-- Users Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    app:cardBackgroundColor="@color/colorSurface"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/cardBorder"
+                    android:contentDescription="Users statistics card">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:gravity="center"
+                        android:importantForAccessibility="yes">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_profile"
+                            android:background="@drawable/bg_stat_icon_users"
+                            android:padding="12dp"
+                            android:contentDescription="Users icon"
+                            android:layout_marginBottom="12dp"/>
+
+                        <TextView
+                            android:id="@+id/tvUserCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textAppearance="@style/TextAppearance.MUSTConnect.HeadlineLarge"
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="4dp"
+                            android:contentDescription="Total user count"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Users"
+                            android:textAppearance="@style/TextAppearance.MUSTConnect.BodyMedium"
+                            android:textColor="@color/colorTextSecondary"
+                            android:contentDescription="Users label"/>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Posts Card -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    app:cardBackgroundColor="@color/colorSurface"
+                    app:cardCornerRadius="16dp"
+                    app:cardElevation="4dp"
+                    app:strokeWidth="1dp"
+                    app:strokeColor="@color/cardBorder"
+                    android:contentDescription="Posts statistics card">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:gravity="center"
+                        android:importantForAccessibility="yes">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/ic_post"
+                            android:background="@drawable/bg_stat_icon_posts"
+                            android:padding="12dp"
+                            android:contentDescription="Posts icon"
+                            android:layout_marginBottom="12dp"/>
+
+                        <TextView
+                            android:id="@+id/tvPostCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0"
+                            android:textAppearance="@style/TextAppearance.MUSTConnect.HeadlineLarge"
+                            android:textColor="@color/colorSecondary"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="4dp"
+                            android:contentDescription="Total post count"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Posts"
+                            android:textAppearance="@style/TextAppearance.MUSTConnect.BodyMedium"
+                            android:textColor="@color/colorTextSecondary"
+                            android:contentDescription="Posts label"/>
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+            <!-- Recent Posts Section -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="Loading users..."
-                android:layout_marginBottom="8dp"
-                android:contentDescription="Total user count"/>
+                app:cardBackgroundColor="@color/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/cardBorder"
+                android:contentDescription="Recent posts section">
 
-            <TextView
-                android:id="@+id/tvPostCount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="Loading posts..."
-                android:layout_marginBottom="8dp"
-                android:contentDescription="Total post count"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_post"
+                            android:contentDescription="Recent posts icon"
+                            android:layout_marginEnd="12dp"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Recent Posts"
+                            android:textAppearance="@style/TextAppearance.MUSTConnect.HeadlineSmall"
+                            android:textColor="@color/colorTextPrimary"
+                            android:textStyle="bold"
+                            android:contentDescription="Recent posts section"/>
+
+                    </LinearLayout>
+
+                    <!-- Posts List -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvPosts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:scrollbars="vertical"
+                        android:contentDescription="List of recent posts"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Recent Posts Header -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Recent Posts"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:paddingStart="16dp"
-        android:paddingTop="8dp"
-        android:paddingEnd="16dp"
-        android:paddingBottom="8dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:contentDescription="Recent posts section"/>
+    </androidx.core.widget.NestedScrollView>
 
-    <!-- Posts List - Added content description -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPosts"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="8dp"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        android:contentDescription="List of recent posts"/>
-
-    <!-- Progress Indicator - Added content description -->
-    <ProgressBar
+    <!-- Progress Indicator -->
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
         android:layout_marginVertical="16dp"
-        android:contentDescription="Loading content"/>
-</LinearLayout>
+        android:contentDescription="Loading content"
+        app:indicatorColor="@color/colorPrimary"
+        app:trackColor="@color/colorPrimaryLight"
+        app:indicatorSize="48dp"
+        app:trackThickness="4dp"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

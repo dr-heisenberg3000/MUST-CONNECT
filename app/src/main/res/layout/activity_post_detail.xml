@@ -1,124 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="@color/colorBackground">
 
-    <LinearLayout
+    <!-- App Bar -->
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
-        <TextView
-            android:id="@+id/tvTitle"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/colorPrimaryDark"
-            android:layout_marginBottom="8dp"/>
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/bg_gradient_toolbar"
+            app:title="Post Details"
+            app:titleTextColor="@color/colorOnPrimary"
+            app:titleTextAppearance="@style/TextAppearance.MUSTConnect.HeadlineSmall"
+            app:navigationIcon="@drawable/ic_back"
+            app:contentInsetStartWithNavigation="0dp"
+            app:contentInsetEndWithActions="0dp"/>
 
-        <TextView
-            android:id="@+id/tvContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:layout_marginBottom="16dp"/>
+    </com.google.android.material.appbar.AppBarLayout>
 
-        <ImageView
-            android:id="@+id/ivMedia"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/app_name"
-            android:background="@drawable/placeholder"
-            android:layout_marginBottom="16dp"/>
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="16dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <!-- Poll Section -->
         <LinearLayout
-            android:id="@+id/layout_poll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:background="@drawable/bg_rounded_corner"
-            android:layout_marginBottom="16dp"
-            android:visibility="gone">
+            android:orientation="vertical">
 
-            <TextView
+            <!-- Post Content Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Poll"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/cardBorder">
 
-            <LinearLayout
-                android:id="@+id/poll_options_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginBottom="16dp"/>
-
-            <Button
-                android:id="@+id/btnVote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Vote"
-                android:background="@drawable/selector_button_primary"
-                android:textColor="@android:color/white"/>
-        </LinearLayout>
-
-        <!-- Comment Section -->
-        <LinearLayout
-            android:id="@+id/layoutComments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp"
-            android:background="@drawable/bg_rounded_corner"
-            android:layout_marginTop="16dp"
-            android:importantForAccessibility="yes">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/comments"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvComments"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="@string/comments_list_description"
-                android:importantForAccessibility="yes"/>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:hint="@string/add_comment">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etComment"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-            <Button
-                android:id="@+id/btnSubmitComment"
-                android:layout_width="wrap_content"
+                    <!-- Post Title -->
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.MUSTConnect.HeadlineMedium"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <!-- Post Content -->
+                    <TextView
+                        android:id="@+id/tvContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.MUSTConnect.BodyLarge"
+                        android:textColor="@color/colorTextSecondary"
+                        android:layout_marginBottom="16dp"/>
+
+                    <!-- Post Meta Information -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp">
+
+                        <TextView
+                            android:id="@+id/tvAuthor"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textAppearance="@style/TextAppearance.MUSTConnect.BodyMedium"
+                            android:textColor="@color/colorTextSecondary"
+                            android:drawableStart="@drawable/ic_profile"
+                            android:drawablePadding="8dp"/>
+
+                        <TextView
+                            android:id="@+id/tvTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.MUSTConnect.BodyMedium"
+                            android:textColor="@color/colorTextSecondary"
+                            android:drawableStart="@drawable/ic_info"
+                            android:drawablePadding="8dp"/>
+
+                    </LinearLayout>
+
+                    <!-- Post Type Badge -->
+                    <TextView
+                        android:id="@+id/tvType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.MUSTConnect.BodySmall"
+                        android:textColor="@color/colorOnPrimary"
+                        android:background="@drawable/bg_post_type_badge"
+                        android:padding="8dp"
+                        android:layout_marginBottom="16dp"/>
+
+                    <!-- Media Image -->
+                    <ImageView
+                        android:id="@+id/ivMedia"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/app_name"
+                        android:background="@drawable/bg_media_placeholder"
+                        android:layout_marginBottom="16dp"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Poll Section -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layout_poll"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/submit"
-                android:background="@drawable/selector_button_primary"
-                android:foreground="@drawable/ripple_effect"
-                android:textColor="@android:color/white"/>
+                android:layout_marginBottom="16dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/cardBorder">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Poll"
+                        android:textAppearance="@style/TextAppearance.MUSTConnect.HeadlineSmall"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp"/>
+
+                    <TextView
+                        android:id="@+id/tvVoteStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.MUSTConnect.BodyMedium"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        android:layout_marginBottom="8dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/poll_options_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginBottom="16dp"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnVote"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="Vote"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:cornerRadius="16dp"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:rippleColor="@color/colorPrimaryLight"
+                        app:elevation="4dp"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Comment Section (Only for suggestions) -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/layoutComments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:visibility="gone"
+                android:importantForAccessibility="yes"
+                app:cardBackgroundColor="@color/colorSurface"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/cardBorder">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/comments"
+                        android:textAppearance="@style/TextAppearance.MUSTConnect.HeadlineSmall"
+                        android:textColor="@color/colorTextPrimary"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="12dp"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvComments"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginBottom="16dp"
+                        android:contentDescription="@string/comments_list_description"
+                        android:importantForAccessibility="yes"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilComment"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:hint="@string/add_comment"
+                        app:startIconDrawable="@drawable/ic_comment"
+                        app:startIconTint="@color/colorPrimary"
+                        app:boxStrokeColor="@color/colorPrimary"
+                        app:hintTextColor="@color/colorPrimary"
+                        app:boxCornerRadiusTopStart="12dp"
+                        app:boxCornerRadiusTopEnd="12dp"
+                        app:boxCornerRadiusBottomStart="12dp"
+                        app:boxCornerRadiusBottomEnd="12dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etComment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@style/TextAppearance.MUSTConnect.BodyLarge"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSubmitComment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="56dp"
+                        android:text="@string/submit"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:padding="16dp"
+                        app:cornerRadius="12dp"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:rippleColor="@color/colorPrimaryLight"
+                        app:elevation="2dp"/>
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

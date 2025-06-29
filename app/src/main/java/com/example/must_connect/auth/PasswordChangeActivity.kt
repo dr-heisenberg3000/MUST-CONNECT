@@ -7,8 +7,9 @@ import com.backendless.Backendless
 import com.backendless.async.callback.AsyncCallback
 import com.backendless.exceptions.BackendlessFault
 import com.example.must_connect.databinding.ActivityPasswordChangeBinding
-import com.example.must_connect.App
 import com.example.must_connect.models.AppUser
+import com.example.must_connect.App
+import com.example.must_connect.utils.ToastUtils
 
 class PasswordChangeActivity : AppCompatActivity() {
 
@@ -19,53 +20,60 @@ class PasswordChangeActivity : AppCompatActivity() {
         binding = ActivityPasswordChangeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupToolbar()
+
         binding.btnSubmit.setOnClickListener {
             changePassword()
         }
     }
 
-    private fun changePassword() {
-        val oldPassword = binding.etOldPassword.text.toString()
-        val newPassword = binding.etNewPassword.text.toString()
-        val confirmPassword = binding.etConfirmPassword.text.toString()
-
-        if (newPassword != confirmPassword) {
-            binding.tilConfirmPassword.error = "Passwords don't match"
-            return
+    private fun setupToolbar() {
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        
+        binding.toolbar.setNavigationOnClickListener {
+            onBackPressed()
         }
+    }
 
+    private fun changePassword() {
         val currentUser = App.currentUser
         if (currentUser == null) {
-            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            ToastUtils.showErrorToast(this, "User not logged in")
             return
         }
 
-        // Verify old password matches
-        if (currentUser.password != oldPassword) {
-            Toast.makeText(this, "Old password is incorrect", Toast.LENGTH_SHORT).show()
+        val oldPassword = binding.etOldPassword.text.toString().trim()
+        val newPassword = binding.etNewPassword.text.toString().trim()
+        val confirmPassword = binding.etConfirmPassword.text.toString().trim()
+
+        if (oldPassword != currentUser.password) {
+            ToastUtils.showErrorToast(this, "Old password is incorrect")
             return
         }
 
-        // Update password locally
+        if (newPassword != confirmPassword) {
+            ToastUtils.showErrorToast(this, "New passwords don't match")
+            return
+        }
+
         currentUser.password = newPassword
 
-        // Save to backend
         Backendless.Data.of(AppUser::class.java).save(currentUser, object : AsyncCallback<AppUser> {
             override fun handleResponse(response: AppUser?) {
-                Toast.makeText(
+                ToastUtils.showSuccessToast(
                     this@PasswordChangeActivity,
-                    "Password updated successfully",
-                    Toast.LENGTH_SHORT
-                ).show()
+                    "Password changed successfully"
+                )
                 finish()
             }
 
             override fun handleFault(fault: BackendlessFault) {
-                Toast.makeText(
+                ToastUtils.showErrorToast(
                     this@PasswordChangeActivity,
-                    "Error: ${fault.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                    "Error: ${fault.message}"
+                )
             }
         })
     }

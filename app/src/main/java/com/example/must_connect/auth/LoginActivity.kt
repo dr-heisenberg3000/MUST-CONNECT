@@ -3,7 +3,6 @@ package com.example.must_connect.auth
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.backendless.Backendless
 import com.backendless.async.callback.AsyncCallback
@@ -16,6 +15,7 @@ import com.example.must_connect.dashboard.TeacherDashboardActivity
 import com.example.must_connect.databinding.ActivityLoginBinding
 import com.example.must_connect.models.AppUser
 import com.example.must_connect.App
+import com.example.must_connect.utils.ToastUtils
 
 class LoginActivity : AppCompatActivity() {
 
@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+/*
         // Initialize Backendless exactly as in your original working version
         if (!Backendless.isInitialized()) {
             Backendless.initApp(
@@ -35,13 +35,13 @@ class LoginActivity : AppCompatActivity() {
             )
             Backendless.setUrl("https://api.backendless.com")
         }
-
+*/
         binding.btnLogin.setOnClickListener {
             val username = binding.etUsername.text.toString().trim()
             val password = binding.etPassword.text.toString().trim()
 
             if (username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
+                ToastUtils.showErrorToast(this, "Please fill all fields")
                 return@setOnClickListener
             }
 
@@ -51,6 +51,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loginUser(username: String, password: String) {
         binding.progressBar.visibility = View.VISIBLE
+        binding.progressBar.isIndeterminate = true
 
         // Original working query logic
         val whereClause = "username = '$username' AND password = '$password'"
@@ -61,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
         Backendless.Data.of(AppUser::class.java).find(queryBuilder, object : AsyncCallback<List<AppUser>> {
             override fun handleResponse(users: List<AppUser>?) {
                 binding.progressBar.visibility = View.GONE
+                binding.progressBar.isIndeterminate = false
 
                 if (users != null && users.isNotEmpty()) {
                     val user = users[0]
@@ -70,17 +72,18 @@ class LoginActivity : AppCompatActivity() {
                         "student" -> startActivity(Intent(this@LoginActivity, StudentDashboardActivity::class.java))
                         "teacher" -> startActivity(Intent(this@LoginActivity, TeacherDashboardActivity::class.java))
                         "admin" -> startActivity(Intent(this@LoginActivity, AdminDashboardActivity::class.java))
-                        else -> Toast.makeText(this@LoginActivity, "Invalid role", Toast.LENGTH_SHORT).show()
+                        else -> ToastUtils.showErrorToast(this@LoginActivity, "Invalid role")
                     }
                     finish()
                 } else {
-                    Toast.makeText(this@LoginActivity, "Invalid credentials", Toast.LENGTH_SHORT).show()
+                    ToastUtils.showErrorToast(this@LoginActivity, "Invalid credentials")
                 }
             }
 
             override fun handleFault(fault: BackendlessFault) {
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(this@LoginActivity, "Login failed: ${fault.message}", Toast.LENGTH_SHORT).show()
+                binding.progressBar.isIndeterminate = false
+                ToastUtils.showErrorToast(this@LoginActivity, "Login failed: ${fault.message}")
             }
         })
     }

@@ -1,30 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp"
-    android:background="@drawable/bg_comment">
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginVertical="4dp"
+    app:cardBackgroundColor="@color/colorSurface"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="@color/cardBorder">
 
-    <TextView
-        android:id="@+id/tvAuthor"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimaryDark"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textSize="16sp"/>
+        <!-- Comment Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
 
-    <TextView
-        android:id="@+id/tvTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textColor="@color/colorTextSecondary"
-        android:layout_marginTop="4dp"/>
-</LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvAuthor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.MUSTConnect.BodyLarge"
+                    android:textColor="@color/colorTextPrimary"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="2dp"/>
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.MUSTConnect.BodySmall"
+                    android:textColor="@color/colorTextTertiary"/>
+
+            </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:cornerRadius="8dp"
+                app:backgroundTint="@color/colorError"
+                app:rippleColor="@color/colorError"
+                app:elevation="0dp"
+                style="@style/Widget.Material3.Button.TextButton"/>
+
+        </LinearLayout>
+
+        <!-- Comment Content -->
+        <TextView
+            android:id="@+id/tvText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.MUSTConnect.BodyLarge"
+            android:textColor="@color/colorTextSecondary"
+            android:lineSpacingExtra="2dp"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>
