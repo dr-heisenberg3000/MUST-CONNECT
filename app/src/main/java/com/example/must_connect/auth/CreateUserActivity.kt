@@ -52,9 +52,10 @@ class CreateUserActivity : AppCompatActivity() {
         val password = binding.etPassword.text.toString().trim()
         val confirmPassword = binding.etConfirmPassword.text.toString().trim()
         val fullName = binding.etFullName.text.toString().trim()
+        val email = binding.etEmail.text.toString().trim()
         val selectedRole = binding.spinnerRole.text.toString()
 
-        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || fullName.isEmpty() || selectedRole.isEmpty()) {
+        if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || fullName.isEmpty() || email.isEmpty() || selectedRole.isEmpty()) {
             ToastUtils.showErrorToast(this, "Please fill all fields")
             return
         }
@@ -69,6 +70,12 @@ class CreateUserActivity : AppCompatActivity() {
             return
         }
 
+        // Basic email validation
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            ToastUtils.showErrorToast(this, "Please enter a valid email address")
+            return
+        }
+
         val role = when (selectedRole) {
             "Student" -> "student"
             "Teacher" -> "teacher"
@@ -79,6 +86,7 @@ class CreateUserActivity : AppCompatActivity() {
             this.username = username
             this.password = password
             this.fullName = fullName
+            this.email = email
             this.role = role
         }
 

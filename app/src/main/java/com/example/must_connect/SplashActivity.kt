@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.example.must_connect.auth.LoginActivity
 import com.example.must_connect.dashboard.AdminDashboardActivity
@@ -19,8 +18,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
         
-        // Start animations
-        startAnimations()
+        // Removed startAnimations() call since splash is now plain white
         
         // Check user session and navigate
         Handler(Looper.getMainLooper()).postDelayed({
@@ -28,23 +26,7 @@ class SplashActivity : AppCompatActivity() {
         }, 2000) // 2 seconds delay
     }
     
-    private fun startAnimations() {
-        val ivLogo = findViewById<android.widget.ImageView>(R.id.ivLogo)
-        val tvAppName = findViewById<android.widget.TextView>(R.id.tvAppName)
-        val tvTagline = findViewById<android.widget.TextView>(R.id.tvTagline)
-        
-        // Logo scale animation
-        val scaleAnimation = AnimationUtils.loadAnimation(this, R.anim.scale_in)
-        ivLogo.startAnimation(scaleAnimation)
-        
-        // Text fade in animations
-        val fadeInAnimation = AnimationUtils.loadAnimation(this, R.anim.fade_in)
-        tvAppName.startAnimation(fadeInAnimation)
-        
-        Handler(Looper.getMainLooper()).postDelayed({
-            tvTagline.startAnimation(fadeInAnimation)
-        }, 500)
-    }
+    // Removed startAnimations() function
     
     private fun checkUserSession() {
         // Check if user is already logged in
@@ -79,4 +61,4 @@ class SplashActivity : AppCompatActivity() {
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         finish()
     }
-} 
+}

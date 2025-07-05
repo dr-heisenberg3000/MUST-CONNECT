@@ -84,6 +84,7 @@ class CreatePostActivity : AppCompatActivity() {
                     binding.etTitle.setText(it.title)
                     binding.etContent.setText(it.content)
                     existingMediaUrl = it.mediaUrl
+                    isMediaRemoved = false
 
                     if (!it.mediaUrl.isNullOrEmpty()) {
                         binding.tvMediaStatus.text = "Media attached"
@@ -215,7 +216,7 @@ class CreatePostActivity : AppCompatActivity() {
         if (mediaUri != null) {
             uploadMediaAndCreatePost(title, content, postType, allowComments)
         } else {
-            val mediaUrl = if (editingPostId != null && !isMediaRemoved) existingMediaUrl else null
+            val mediaUrl = if (editingPostId != null && !isMediaRemoved && existingMediaUrl != null) existingMediaUrl else null
             savePost(title, content, postType, allowComments, mediaUrl)
         }
     }

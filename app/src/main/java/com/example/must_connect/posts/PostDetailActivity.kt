@@ -377,7 +377,7 @@ class PostDetailActivity : AppCompatActivity() {
             this.postId = post.objectId
             this.text = commentText
             this.authorId = currentUser.objectId
-            this.authorName = currentUser.fullName ?: currentUser.username
+            this.authorName = currentUser.username
         }
 
         Backendless.Data.of(Comment::class.java).save(comment, object : AsyncCallback<Comment> {
